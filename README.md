@@ -1,57 +1,89 @@
+# 🎓 SpringEduManager
 
+Aplicación web educativa desarrollada como parte de la evaluación del **Módulo #6: Desarrollo de aplicaciones JEE con Spring Framework** de Alkemy. El sistema permite gestionar de manera centralizada estudiantes, cursos y evaluaciones, sirviendo como base escalable para la arquitectura interna del campus.
 
+---
 
+## 🛠️ Tecnologías y Dependencias
+* **Java** (JDK 21)
+* **Spring Boot** (v4.1.1)
+* **Spring MVC** (Controladores web y vistas)
+* **Spring Data JPA** (Persistencia y repositorios)
+* **Spring Security** (Control de acceso y roles `ADMIN` / `USER`)
+* **Thymeleaf** (Motor de plantillas HTML)
+* **H2 Database** (Base de datos embebida en memoria)
+* **Maven** (Gestor de dependencias y ciclo de vida)
 
+---
+
+## 📂 Estructura del Proyecto
+
+```text
 SpringEduManager/
-├── src/main/java/com/edumanager/
-│   ├── SpringEduManagerApplication.java    <-- Clase principal con @SpringBootApplication
-│   │
-│   ├── config/                             <-- Configuración global
-│   │   └── SecurityConfig.java            <-- Configuración de Spring Security y roles (Lección 4)
-│   │
-│   ├── controller/                         <-- Controladores web (MVC - Lección 2)
-│   │   ├── EstudianteController.java      <-- Rutas para vistas de Estudiante
-│   │   ├── CursoController.java           <-- Rutas para vistas de Curso
-│   │   └── AuthController.java            <-- Control de Login y Logout
-│   │
-│   ├── controller/api/                     <-- Servicios API REST (Lección 5)
-│   │   ├── EstudianteRestController.java  <-- Endpoints REST CRUD Estudiantes[cite: 1]
-│   │   └── CursoRestController.java       <-- Endpoints REST CRUD Cursos[cite: 1]
-│   │
-│   ├── model/                              <-- Entidades JPA (Lección 2 y 3)[cite: 1]
-│   │   ├── Estudiante.java
-│   │   ├── Curso.java
-│   │   └── Evaluacion.java
-│   │
-│   ├── repository/                         <-- Repositorios JPA (Lección 3)[cite: 1]
-│   │   ├── EstudianteRepository.java      <-- Extiende JpaRepository[cite: 1]
-│   │   └── CursoRepository.java           <-- Extiende JpaRepository[cite: 1]
-│   │
-│   └── service/                            <-- Capa de Lógica de Negocio (Lección 3)[cite: 1]
-│       ├── EstudianteService.java
-│       ├── CursoService.java
+├── src/main/java/com/alkemy/edumanager/
+│   ├── SpringEduManagerApplication.java    <-- Clase principal
+│   ├── config/
+│   │   └── SecurityConfig.java            <-- Configuración de seguridad y roles
+│   ├── controller/
+│   │   ├── AuthController.java            <-- Control de vistas de inicio y login
+│   │   ├── CursoController.java           <-- Controlador web MVC para cursos
+│   │   └── EstudianteController.java      <-- Controlador web MVC para estudiantes
+│   ├── controller.api/
+│   │   ├── CursoRestController.java       <-- API RESTful de cursos
+│   │   └── EstudianteRestController.java  <-- API RESTful de estudiantes
+│   ├── model/
+│   │   ├── Curso.java                     <-- Entidad JPA Curso
+│   │   ├── Estudiante.java                <-- Entidad JPA Estudiante
+│   │   └── Evaluacion.java                <-- Entidad JPA Evaluación
+│   ├── repository/
+│   │   ├── CursoRepository.java           <-- Repositorio JPA de Cursos
+│   │   └── EstudianteRepository.java      <-- Repositorio JPA de Estudiantes
+│   └── service/
+│       ├── CursoService.java              <-- Interfaz de lógica de negocio
+│       ├── EstudianteService.java         <-- Interfaz de lógica de negocio
 │       └── impl/
-│           ├── EstudianteServiceImpl.java
-│           └── CursoServiceImpl.java
+│           ├── CursoServiceImpl.java      <-- Implementación de servicios
+│           └── EstudianteServiceImpl.java <-- Implementación de servicios
 │
 ├── src/main/resources/
-│   ├── static/                             <-- Archivos estáticos
-│   │   ├── css/                           <-- Hojas de estilo
-│   │   ├── js/                            <-- Scripts JS
-│   │   └── images/                        <-- Recursos gráficos[cite: 1]
-│   │
-│   ├── templates/                          <-- Vistas Thymeleaf/HTML (Lección 2)[cite: 1]
-│   │   ├── auth/
-│   │   │   └── login.html                 <-- Formulario de login (Lección 4)[cite: 1]
-│   │   ├── estudiantes/
-│   │   │   ├── lista.html                 <-- Listado de estudiantes[cite: 1]
-│   │   │   └── formulario.html            <-- Formulario de registro/edición[cite: 1]
-│   │   ├── cursos/
-│   │   │   ├── lista.html                 <-- Listado de cursos[cite: 1]
-│   │   │   └── formulario.html            <-- Carga de cursos (Solo ADMIN)[cite: 1]
-│   │   └── index.html                     <-- Página principal
-│   │
-│   └── application.properties              <-- Conexión H2/MySQL y Spring Security[cite: 1]
+│   ├── static/                            <-- Recursos estáticos (CSS, JS, imágenes)
+│   ├── templates/                         <-- Vistas HTML con Thymeleaf
+│   │   ├── cursos/                        <-- Listado y formulario de cursos
+│   │   ├── estudiantes/                   <-- Listado y formulario de estudiantes
+│   │   ├── index.html                     <-- Página de bienvenida principal
+│   │   └── login.html                     <-- Formulario de autenticación personalizado
+│   └── application.properties             <-- Configuración de entorno y base de datos
 │
-├── src/test/java/com/edumanager/           <-- Pruebas unitarias/integración
-└── pom.xml                                 <-- Dependencias Maven (Lección 1)[cite: 1]
+└── pom.xml                                <-- Configuración de Maven
+
+
+# 🚀 Guía de Configuración y Ejecución
+
+## 📋 Prerrequisitos
+
+Asegúrate de tener instalado en tu equipo lo siguiente:
+
+* **JDK 21** o superior.
+* **Maven** (o puedes utilizar el *Maven Wrapper* incluido en el proyecto: `./mvnw` en Linux/Mac o `mvnw.cmd` en Windows).
+* Un entorno de desarrollo como **Spring Tool Suite (STS)**, **Eclipse** o **IntelliJ IDEA**.
+
+---
+
+## ⚙️ Paso a Paso para Ejecutar
+
+### 1. Clonar el repositorio
+Abre tu terminal y clona el proyecto en tu máquina local:
+
+```bash
+git clone [https://github.com/odettegallo/SpringEduManager.git](https://github.com/odettegallo/SpringEduManager.git)
+
+### 2. Abrir el proyecto
+Abre tu IDE (por ejemplo, Spring Tool Suite).
+Selecciona File > Import... > Maven > Existing Maven Projects.
+Busca y selecciona la carpeta raíz de SpringEduManager y haz clic en Finish.
+
+### 3. Compilar y empaquetar con Maven
+Desde la terminal ubicada en la raíz del proyecto, ejecuta el ciclo de vida de Maven para limpiar y descargar las dependencias:
+
+```bash
+mvn clean install
