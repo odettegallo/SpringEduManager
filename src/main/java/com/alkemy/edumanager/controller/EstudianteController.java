@@ -4,10 +4,7 @@ import com.alkemy.edumanager.model.Estudiante;
 import com.alkemy.edumanager.service.EstudianteService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/estudiantes")
@@ -34,6 +31,19 @@ public class EstudianteController {
     @PostMapping("/guardar")
     public String guardarEstudiante(@ModelAttribute Estudiante estudiante) {
         estudianteService.guardar(estudiante);
+        return "redirect:/estudiantes";
+    }
+
+    @GetMapping("/editar/{id}")
+    public String mostrarFormularioEditar(@PathVariable Long id, Model model) {
+        Estudiante estudiante = estudianteService.obtenerPorId(id);
+        model.addAttribute("estudiante", estudiante);
+        return "estudiantes/formulario";
+    }
+
+    @GetMapping("/eliminar/{id}")
+    public String eliminarEstudiante(@PathVariable Long id) {
+        estudianteService.eliminar(id);
         return "redirect:/estudiantes";
     }
 }

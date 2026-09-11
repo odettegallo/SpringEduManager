@@ -1,34 +1,74 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Lista de Cursos</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
-<body class="container mt-4">
-    <h2>Catálogo de Cursos</h2>
-    <a th:href="@{/cursos/nuevo}" class="btn btn-primary mb-3">Crear Nuevo Curso</a>
+<body>
 
-    <table class="table table-striped border">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre del Curso</th>
-                <th>Descripción</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="curso : ${cursos}">
-                <td th:text="${curso.id}">1</td>
-                <td th:text="${curso.nombre}">Java Spring Boot</td>
-                <td th:text="${curso.descripcion}">Curso completo de Spring Boot y desarrollo web</td>
-            </tr>
-        </tbody>
-    </table>
-    
-    <a th:href="@{/estudiantes}" class="btn btn-secondary">Ver Estudiantes</a>
-	<form th:action="@{/logout}" method="post" class="d-inline">
-	    <button type="submit" class="btn btn-outline-danger">Cerrar Sesión</button>
-	</form>
+    <!-- Reemplazo dinámico del Navbar -->
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+    <div class="container">
+        <!-- Encabezado contextual con acción propia de la vista -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 th:text="${esAdmin} ? 'Catálogo General de Cursos' : 'Mis Cursos y Calificaciones'">Mis Cursos</h2>
+            <a sec:authorize="hasRole('ADMIN')" th:href="@{/cursos/nuevo}" class="btn btn-primary">Crear Nuevo Curso</a>
+        </div>
+
+        <!-- VISTA ALUMNO -->
+        <div th:if="${!esAdmin}">
+            <table class="table table-striped border align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Curso</th>
+                        <th>Descripción</th>
+                        <th class="text-center">Nota 1</th>
+                        <th class="text-center">Nota 2</th>
+                        <th class="text-center">Nota 3</th>
+                        <th class="text-center">Promedio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="eval : ${evaluaciones}">
+                        <td class="fw-bold" th:text="${eval.curso.nombre}">Curso</td>
+                        <td th:text="${eval.curso.descripcion}">Descripción</td>
+                        <td class="text-center" th:text="${eval.nota1}">0.0</td>
+                        <td class="text-center" th:text="${eval.nota2}">0.0</td>
+                        <td class="text-center" th:text="${eval.nota3}">0.0</td>
+                        <td class="text-center fw-bold text-primary" th:text="${#numbers.formatDecimal(eval.promedio, 1, 1)}">0.0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- VISTA ADMIN -->
+        <div th:if="${esAdmin}">
+            <table class="table table-striped border align-middle">
+                <thead class="table-secondary">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre del Curso</th>
+                        <th>Descripción</th>
+                        <th class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="curso : ${cursos}">
+                        <td th:text="${curso.id}">1</td>
+                        <td class="fw-bold" th:text="${curso.nombre}">Curso</td>
+                        <td th:text="${curso.descripcion}">Descripción</td>
+                        <td class="text-center">
+                            <a th:href="@{/cursos/editar/{id}(id=${curso.id})}" class="btn btn-warning btn-sm me-1">Editar</a>
+                            <a th:href="@{/cursos/eliminar/{id}(id=${curso.id})}" class="btn btn-danger btn-sm" onclick="return confirm('¿Desea eliminar este curso?')">Eliminar</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
 </body>
 </html>

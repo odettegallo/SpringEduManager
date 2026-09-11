@@ -36,16 +36,20 @@ public class SecurityConfig {
 
     @Bean SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable())
+            .csrf(csrf -> csrf.disable()) // Deshabilitado para consumo sencillo de endpoints/H2 en entorno local
+            .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin())) // Permitir consola H2
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/","/css/**", "/js/**", "/images/**", "/login").permitAll() // Asegúrate de permitir /login
-                .requestMatchers("/cursos/nuevo", "/cursos/guardar").hasRole("ADMIN")
+                .requestMatchers("/", "/css/**", "/js/**", "/images/**", "/login", "/h2-console/**").permitAll()
+                .requestMatchers("/cursos/nuevo", "/cursos/guardar", "/estudiantes/nuevo", "/estudiantes/guardar").hasRole("ADMIN")
                 .requestMatchers("/api/**").hasRole("ADMIN")
+                .requestMatchers("/cursos/nuevo", "/cursos/guardar", "/cursos/editar/**", "/cursos/eliminar/**").hasRole("ADMIN")
+                .requestMatchers("/estudiantes/nuevo", "/estudiantes/guardar", "/estudiantes/editar/**", "/estudiantes/eliminar/**").hasRole("ADMIN")
+                .requestMatchers("/evaluaciones/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
-                .loginPage("/login")                 // <--- ¡Esto es lo que faltaba para activar tu login.html!
-                .defaultSuccessUrl("/estudiantes", true) // <--- A dónde entra tras loguearse con éxito
+                .loginPage("/login")
+                .defaultSuccessUrl("/cursos", true)
                 .permitAll()
             )
             .logout(logout -> logout

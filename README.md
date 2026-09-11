@@ -87,3 +87,45 @@ Desde la terminal ubicada en la raíz del proyecto, ejecuta el ciclo de vida de 
 
 ```bash
 mvn clean install
+
+Nota: Si no tienes Maven instalado globalmente, puedes usar ./mvnw clean install en Linux/Mac o mvnw.cmd clean install en Windows.
+
+### 4. Ejecutar la aplicación
+Desde la terminal:
+
+```bash
+mvn spring-boot:run
+
+Desde el IDE: Haz clic derecho sobre la clase principal SpringEduManagerApplication.java, selecciona Run As y luego Spring Boot App.
+
+### 5. Acceder a la plataforma
+Una vez que el servidor se haya iniciado correctamente, abre tu navegador web de preferencia e ingresa a:
+
+http://localhost:8080/
+
+# 🔑 Credenciales de Acceso
+## El sistema cuenta con usuarios configurados en memoria (InMemoryUserDetailsManager) para probar los distintos roles:
+
+Usuario Estudiante (Rol USER):
+
+Usuario: estudiante
+
+Contraseña: user123
+
+Usuario Administrador (Roles ADMIN, USER):
+
+Usuario: admin
+
+Contraseña: admin123 (Este usuario tiene permisos exclusivos para registrar nuevos cursos en /cursos/nuevo).
+
+# 📌 Progreso por Etapas (Módulo 6)
+
+Lección 1: Configuración inicial del proyecto con Spring Initializr y gestión de dependencias en Maven (pom.xml).
+
+Lección 2: Implementación del patrón MVC utilizando Thymeleaf para las vistas y anotaciones @Controller, @GetMapping y @PostMapping.
+
+Lección 3: Capa de acceso a datos conectada a una base de datos embebida H2 mediante Spring Data JPA e interfaces JpaRepository.
+
+Lección 4: Seguridad perimetral implementada con Spring Security, controlando rutas exclusivas para administradores y vistas de login/logout personalizadas.
+
+Lección 5: Exposición de servicios de interoperabilidad mediante @RestController para operaciones CRUD completas en formato JSON.

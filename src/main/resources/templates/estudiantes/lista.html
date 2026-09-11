@@ -5,31 +5,41 @@
     <title>Lista de Estudiantes</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
-<body class="container mt-4">
-    <h2>Lista de Estudiantes</h2>
-    <a th:href="@{/estudiantes/nuevo}" class="btn btn-primary mb-3">Registrar Estudiante</a>
+<body>
 
-    <table class="table table-striped border">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Email</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="estudiante : ${estudiantes}">
-                <td th:text="${estudiante.id}">1</td>
-                <td th:text="${estudiante.nombre}">Nombre</td>
-                <td th:text="${estudiante.apellido}">Apellido</td>
-                <td th:text="${estudiante.email}">email@ejemplo.com</td>
-            </tr>
-        </tbody>
-    </table>
-	<!-- Formulario de Logout para Spring Security -->
-	<form th:action="@{/logout}" method="post" class="d-inline">
-	    <button type="submit" class="btn btn-outline-danger">Cerrar Sesión</button>
-	</form>
+    <!-- Reemplazo dinámico del Navbar -->
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Gestión de Estudiantes</h2>
+            <a th:href="@{/estudiantes/nuevo}" class="btn btn-primary">Registrar Estudiante</a>
+        </div>
+
+        <table class="table table-striped border align-middle">
+            <thead class="table-secondary">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Email</th>
+                    <th class="text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="estudiante : ${estudiantes}">
+                    <td th:text="${estudiante.id}">1</td>
+                    <td th:text="${estudiante.nombre}">Nombre</td>
+                    <td th:text="${estudiante.apellido}">Apellido</td>
+                    <td th:text="${estudiante.email}">Email</td>
+                    <td class="text-center">
+                        <a th:href="@{/estudiantes/editar/{id}(id=${estudiante.id})}" class="btn btn-warning btn-sm me-1">Editar</a>
+                        <a th:href="@{/estudiantes/eliminar/{id}(id=${estudiante.id})}" class="btn btn-danger btn-sm" onclick="return confirm('¿Desea eliminar este estudiante?')">Eliminar</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
 </body>
 </html>

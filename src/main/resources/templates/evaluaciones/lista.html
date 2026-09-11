@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Notas</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+
+    <!-- Integración del Navbar global -->
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Gestión de Notas y Evaluaciones</h2>
+            <a th:href="@{/evaluaciones/nuevo}" class="btn btn-success">Asignar Nueva Nota</a>
+        </div>
+
+        <table class="table table-striped border align-middle">
+            <thead class="table-secondary">
+                <tr>
+                    <th>Estudiante</th>
+                    <th>Curso</th>
+                    <th class="text-center">Nota 1</th>
+                    <th class="text-center">Nota 2</th>
+                    <th class="text-center">Nota 3</th>
+                    <th class="text-center">Promedio</th>
+                    <th class="text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="eval : ${evaluaciones}">
+                    <td th:text="${eval.estudiante.nombre + ' ' + eval.estudiante.apellido}">Estudiante</td>
+                    <td th:text="${eval.curso.nombre}">Curso</td>
+                    <td class="text-center" th:text="${eval.nota1}">0.0</td>
+                    <td class="text-center" th:text="${eval.nota2}">0.0</td>
+                    <td class="text-center" th:text="${eval.nota3}">0.0</td>
+                    <td class="text-center fw-bold text-primary" th:text="${#numbers.formatDecimal(eval.promedio, 1, 1)}">0.0</td>
+                    <td class="text-center">
+                        <a th:href="@{/evaluaciones/editar/{id}(id=${eval.id})}" class="btn btn-warning btn-sm me-1">Editar</a>
+                        <a th:href="@{/evaluaciones/eliminar/{id}(id=${eval.id})}" class="btn btn-danger btn-sm" onclick="return confirm('¿Desea eliminar estas notas?')">Eliminar</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
