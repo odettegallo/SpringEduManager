@@ -5,7 +5,7 @@ Aplicación web educativa desarrollada como parte de la evaluación del **Módul
 ---
 
 ## 🛠️ Tecnologías y Dependencias
-* **Java** (JDK 21)
+* **Java** (JDK 25)
 * **Spring Boot** (v4.1.1)
 * **Spring MVC** (Controladores web y vistas)
 * **Spring Data JPA** (Persistencia y repositorios)
@@ -64,7 +64,7 @@ SpringEduManager/
 
 ### 📋 Prerrequisitos
 Asegúrate de tener instalado en tu equipo lo siguiente:
-* **JDK 21** o superior.
+* **JDK 25** o superior.
 * **Maven** (o puedes utilizar el *Maven Wrapper* incluido en el proyecto: `./mvnw` en Linux/Mac o `mvnw.cmd` en Windows).
 * Un entorno de desarrollo como **Spring Tool Suite (STS)**, **Eclipse** o **IntelliJ IDEA**.
 
